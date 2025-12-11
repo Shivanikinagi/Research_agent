@@ -1,41 +1,41 @@
-# Research_agent
+🌐 Research Agent
 
-A compact research assistant that searches the web, extracts short passages from top results, ranks them with semantic embeddings, and produces an extractive summary of the most relevant sentences.
+A lightweight web research assistant that searches the internet, extracts meaningful passages, ranks them using semantic embeddings, and generates a concise extractive summary of the most relevant information.
 
-Built with:
+🚀 Features
 
-DuckDuckGo search (ddgs)
+✔ DuckDuckGo Web Search (no API key required)
+✔ Extract and clean text from webpages
+✔ Break long text into short, meaningful passages
+✔ Embed passages using Sentence Transformers
+✔ Rank passages using cosine similarity
+✔ Generate a short extractive summary with source links
+✔ Highly configurable: results count, passage size, model, timeout, etc.
 
-requests + BeautifulSoup for page scraping
+🛠️ Built With
 
-sentence-transformers for embeddings (semantic ranking)
+🦆 DuckDuckGo Search (ddgs)
 
-NumPy for similarity ranking
+🌐 Requests + BeautifulSoup4 for webpage scraping
 
-Features
+🧠 Sentence-Transformers (all-MiniLM-L6-v2)
 
-Query web via DuckDuckGo (no API key required).
+🔢 NumPy for similarity scoring
 
-Fetch and clean HTML text from top URLs.
+📦 Requirements
+Python Version
+Python 3.8+
 
-Chunk long pages into short passages.
-
-Embed passages and the query with a SentenceTransformer model.
-
-Rank passages by cosine similarity and extract top sentences.
-
-Produce a brief extractive summary with source attribution.
-
-Simple, configurable constants for results count, passage size, and model.
-
-Quick Demo
-python short_research_agent.py
-# or
-python3 short_research_agent.py
+Install Dependencies
+pip install ddgs requests beautifulsoup4 sentence-transformers numpy
 
 
-Sample run (prints top passages and a short extractive summary):
+⏳ The first run downloads the SentenceTransformer model — may take ~50–100MB.
 
+▶️ Quick Demo
+python main.py
+
+Example Output
 Running query: What are the most recent and significant developments in the field of AI from the past 2-3 years?
 
 Top passages:
@@ -43,85 +43,62 @@ Top passages:
   ...transformers and large language models (LLMs) have advanced...
 
 --- Extractive summary ---
-Large language models have advanced state-of-the-art results in many tasks (Source: https://...). Transformer architectures and scaling laws enabled better performance (Source: https://...). Diffusion models and multimodal learning expanded generative AI capabilities (Source: https://...).
+Large language models have advanced state-of-the-art results in many tasks (Source: https://...). 
+Transformer architectures and scaling laws enabled better performance (Source: https://...). 
+Diffusion models and multimodal learning expanded generative AI capabilities (Source: https://...).
 --------------------------
 Done in 8.7s
 
-Requirements
-
-Python 3.8+
-
-pip packages:
-
-ddgs (duckduckgo_search renamed)
-
-requests
-
-beautifulsoup4
-
-sentence-transformers
-
-numpy
-
-Install quickly:
-
-pip install ddgs requests beautifulsoup4 sentence-transformers numpy
-
-
-The first run will download the SentenceTransformer model (sentence-transformers/all-MiniLM-L6-v2) which may take a minute and some disk space.
-
-Files
-
-short_research_agent.py — main script (the code you provided).
-
-README.md — this file.
-
-Configuration (constants inside the script)
-
-You can tune search/summary behavior by editing top-level constants:
-
-SEARCH_RESULTS = 6        # number of URLs to check
-PASSAGES_PER_PAGE = 4     # passages pulled from each URL
+⚙️ Configuration (Editable in Code)
+SEARCH_RESULTS = 6
+PASSAGES_PER_PAGE = 4
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-TOP_PASSAGES = 5          # how many passages to consider for summary
-SUMMARY_SENTENCES = 3     # number of sentences in final summary
-TIMEOUT = 8               # requests timeout for webpages (seconds)
+TOP_PASSAGES = 5
+SUMMARY_SENTENCES = 3
+TIMEOUT = 8
 
-How it works (high level)
+🧠 How It Works
+1️⃣ Search
 
-Search — use DuckDuckGo to find SEARCH_RESULTS links for the query.
+DuckDuckGo returns the top URLs for the query.
 
-Fetch — download each URL and extract clean text from <p> tags (and fallbacks).
+2️⃣ Fetch
 
-Chunk — split fetched text into passages of ~max_words (default 120).
+Each URL is downloaded and cleaned (scripts, ads, navbars removed).
 
-Embed — encode passages and the query using SentenceTransformer embeddings.
+3️⃣ Chunk
 
-Rank — compute cosine similarity between query and passage embeddings.
+Text is split into small passages (~120 words each).
 
-Select — pick top TOP_PASSAGES passages, split them into sentences.
+4️⃣ Embed
 
-Summarize — embed sentences, choose SUMMARY_SENTENCES most similar sentences, de-duplicate and output summary with source links.
+Passages and query are converted into high-dimensional vectors.
 
-Usage / Example
+5️⃣ Rank
 
-Run a one-off query from the command line. Edit the q variable at the bottom or change the script to accept CLI args:
+Cosine similarity determines which passages best match the query.
 
+6️⃣ Summarize
+
+Top sentences across passages are selected + source links included.
+
+📌 Usage Example
 agent = ShortResearchAgent()
 out = agent.run("What are the major trends in renewable energy in 2024?")
 print(out["summary"])
 
+📁 Project Structure
+├── maint.py   # Main script
+└── README.md                 # Documentation
 
-Or make it accept user input by replacing the bottom __main__ block with CLI parsing.
+📄 License
 
-License & Credits
+MIT License — free to use, modify, and distribute.
 
-MIT-style: feel free to reuse and adapt.
+💡 Credits
 
-Built using open-source libraries:
+🔍 DuckDuckGo Search via ddgs
 
-DuckDuckGo search via ddgs
+🧠 Sentence Embeddings via sentence-transformers
 
-BeautifulSoup for HTML parsing
-
-sentence-transformers for embeddings
+🌐 HTML parsing via BeautifulSoup4
